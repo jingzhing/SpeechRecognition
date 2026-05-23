@@ -10,8 +10,8 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     pip install --no-cache-dir -r /app/requirements-inference.txt
 
 COPY speech_digit /app/speech_digit
-COPY scripts/predict_audio.py /app/scripts/predict_audio.py
 COPY outputs/model /app/outputs/model
 COPY outputs/labels.json /app/outputs/labels.json
+COPY app.py /app/app.py
 
-ENTRYPOINT ["python", "scripts/predict_audio.py"]
+CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000}"]
